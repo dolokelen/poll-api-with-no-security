@@ -52,7 +52,7 @@ class Respondant(models.Model):
         max_length=3, choices=OCCUPATION_STATUS_CHOICES, default=STUDENT)
 
     def __str__(self) -> str:
-        return self.user__username
+        return self.user.username
 
 
 class Address(models.Model):
