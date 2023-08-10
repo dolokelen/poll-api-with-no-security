@@ -33,6 +33,7 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ['text', 'category', 'author',
                     'comment', 'date_created', 'updated']
     autocomplete_fields = ['category', 'author']
+    search_fields = ['text__startswith']
     inlines = [ChoiceInline]
 
 
@@ -45,4 +46,17 @@ class RespondantAdmin(admin.ModelAdmin):
     list_select_related = ['user']
     list_display = ['user', 'birth_date', 'occupation']
     autocomplete_fields = ['user']
+    search_fields = ['user']
     inlines = [AddressInline]
+
+
+class SelectedChoiceInline(admin.TabularInline):
+    model = models.SelectedChoice
+
+
+@admin.register(models.Response)
+class ResponseAdmin(admin.ModelAdmin):
+    list_select_related = ['respondant', 'question']
+    list_display = ['respondant', 'question']
+    autocomplete_fields = ['respondant', 'question']
+    inlines = [SelectedChoiceInline]

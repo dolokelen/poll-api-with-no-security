@@ -40,7 +40,7 @@ class Respondant(models.Model):
     UNEMPLOY = 'UNE'
     OCCUPATION_STATUS_CHOICES = [
         (STUDENT, 'Student'),
-        (EMPLOYEE, 'Working'),
+        (EMPLOYEE, 'Employee'),
         (FARMER, 'Farmer'),
         (MERCHANT, 'Business person'),
         (UNEMPLOY, 'Unemploy')
