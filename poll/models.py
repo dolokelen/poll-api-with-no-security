@@ -1,5 +1,11 @@
 from django.conf import settings
 from django.db import models
+from django.db.models.query import QuerySet
+
+
+class PublishedManager(models.Manager):
+    def get_queryset(self) -> QuerySet:
+        return super(PublishedManager, self).get_queryset().filter(status='published')
 
 
 class Category(models.Model):
@@ -7,6 +13,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'categories'
+
     def __str__(self) -> str:
         return self.title
 
@@ -26,10 +33,16 @@ class Question(models.Model):
     comment = models.TextField(blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=9, choices=STATUS_CHOICES, default=DRIFT)
+    status = models.CharField(
+        max_length=9, choices=STATUS_CHOICES, default=DRIFT)
+    
+    objects = models.Manager() #The default manager
+    published = PublishedManager() #My custom manager
 
     def __str__(self) -> str:
         return self.text[:50]
+    
+
 
 
 class Choice(models.Model):
@@ -84,7 +97,7 @@ class Response(models.Model):
 
     class Meta:
         unique_together = [['question', 'respondant']]
-        
+
     def __str__(self) -> str:
         return self.date.strftime('%a %d %b %Y, %I:%M%p')
 

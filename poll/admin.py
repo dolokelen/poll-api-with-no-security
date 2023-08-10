@@ -30,8 +30,8 @@ class ChoiceInline(admin.TabularInline):
 @admin.register(models.Question)
 class QuestionAdmin(admin.ModelAdmin):
     list_select_related = ['category', 'author']
-    list_display = ['text', 'category', 'author',
-                    'comment', 'date_created', 'updated']
+    list_display = ['text', 'status', 'category', 'author',
+                    'date_created', 'updated']
     autocomplete_fields = ['category', 'author']
     search_fields = ['text__startswith']
     inlines = [ChoiceInline]
