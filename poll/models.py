@@ -67,8 +67,16 @@ class Respondant(models.Model):
         (MERCHANT, 'Business person'),
         (UNEMPLOY, 'Unemploy')
     ]
+
+    MALE = 'male'
+    FEMALE = 'female'
+    GENDER_CHOICES = (
+        (MALE, 'Male'),
+        (FEMALE, 'Female')
+    )
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT, primary_key=True)
+    gender = models.CharField(max_length=6, choices=GENDER_CHOICES)
     birth_date = models.DateField()
     occupation = models.CharField(
         max_length=3, choices=OCCUPATION_STATUS_CHOICES, default=STUDENT)
