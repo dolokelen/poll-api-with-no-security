@@ -12,6 +12,12 @@ class Category(models.Model):
 
 
 class Question(models.Model):
+    PUBLISHED = 'published'
+    DRIFT = 'draft'
+    STATUS_CHOICES = (
+        (PUBLISHED, 'Published'),
+        (DRIFT, 'Draft')
+    )
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT, related_name='questions')
     text = models.CharField(max_length=255)
@@ -20,6 +26,7 @@ class Question(models.Model):
     comment = models.TextField(blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=9, choices=STATUS_CHOICES, default=DRIFT)
 
     def __str__(self) -> str:
         return self.text[:50]
