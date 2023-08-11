@@ -44,7 +44,7 @@ class AddressInline(admin.StackedInline):
 @admin.register(models.Respondant)
 class RespondantAdmin(admin.ModelAdmin):
     list_select_related = ['user']
-    list_display = ['user', 'birth_date', 'occupation']
+    list_display = ['user','gender', 'birth_date', 'occupation']
     autocomplete_fields = ['user']
     search_fields = ['user']
     inlines = [AddressInline]
