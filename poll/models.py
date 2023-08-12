@@ -35,14 +35,12 @@ class Question(models.Model):
     updated = models.DateTimeField(auto_now=True)
     status = models.CharField(
         max_length=9, choices=STATUS_CHOICES, default=DRIFT)
-    
-    objects = models.Manager() #The default manager
-    published = PublishedManager() #My custom manager
+
+    objects = models.Manager()  # The default manager
+    published = PublishedManager()  # My custom manager
 
     def __str__(self) -> str:
         return self.text[:50]
-    
-
 
 
 class Choice(models.Model):
