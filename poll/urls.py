@@ -7,7 +7,8 @@ router = DefaultRouter()
 router.register('categories', views.CategoryViewSet, basename='category')
 router.register('questions', views.QuestionViewSet, basename='question')
 
+
 urlpatterns = [
     path('hello', views.hello),
-    path('', include(router.urls))
+    path('', include(router.urls)),
 ]
