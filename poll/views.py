@@ -18,7 +18,7 @@ class CategoryViewSet(ModelViewSet):
     def destroy(self, request, *args, **kwargs):
         if Question.published.filter(category_id=self.kwargs['pk']).count() > 0:
             return Response({'error': 'Category cannot be deleted because it is associated with one or more questions.'}, 
-                            status=status.HTTP_409_CONFLICT)
+                            status=status.HTTP_405_METHOD_NOT_ALLOWED)
         return super().destroy(request, *args, **kwargs)
 
 

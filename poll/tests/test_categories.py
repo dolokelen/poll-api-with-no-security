@@ -1,6 +1,9 @@
 import pytest
 from rest_framework import status
 from django.contrib.auth import get_user_model
+from model_bakery import baker
+
+from poll.models import Category, Question
 
 @pytest.fixture
 def create_category(api_client):
@@ -26,7 +29,12 @@ class TestCategoryModel:
         assert respons.status_code == status.HTTP_400_BAD_REQUEST
 
     # def test_attempt_to_delete_category_with_question_returns_409(self, api_client):
-    #     pass
+    #     category = baker.make(Category)
+    #     question = baker.make(Question, category=category)
+
+    #     response = api_client.delete(f'/poll/categories/{category.id}/')
+
+    #     assert response.status_code == status.HTTP_409_CONFLICT
 
         
         
