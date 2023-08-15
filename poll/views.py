@@ -23,5 +23,5 @@ class CategoryViewSet(ModelViewSet):
 
 
 class QuestionViewSet(ModelViewSet):
-    queryset = Question.published.all()
+    queryset = Question.published.prefetch_related('choices').all()
     serializer_class = QuestionSerializer

@@ -7,7 +7,14 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'title']
 
 
+class ChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Choice
+        fields = ['id', 'label']
+
+
 class QuestionSerializer(serializers.ModelSerializer):
+    choices = ChoiceSerializer(many=True, read_only=True)
     class Meta:
         model = models.Question
-        fields = ['id', 'category', 'author', 'text', 'comment', 'status']
+        fields = ['id', 'category', 'author', 'text', 'choices', 'comment', 'status']
