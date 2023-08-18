@@ -29,12 +29,17 @@ class ChoiceInline(admin.TabularInline):
 
 @admin.register(models.Question)
 class QuestionAdmin(admin.ModelAdmin):
+    exclude = ['author']
     list_select_related = ['category', 'author']
     list_display = ['text', 'status', 'category', 'author',
                     'date_created', 'updated']
     autocomplete_fields = ['category', 'author']
     search_fields = ['text__startswith']
     inlines = [ChoiceInline]
+
+    def save_model(self, request: Any, obj: Any, form: Any, change: Any) -> None:
+        obj.author=request.user
+        return super().save_model(request, obj, form, change)
 
 
 class AddressInline(admin.StackedInline):

@@ -1,10 +1,11 @@
 from django.shortcuts import render
+from django.db.models import Count
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from rest_framework.response import Response
 
-from .serializers import CategorySerializer, QuestionSerializer
-from . models import Category, Question
+from .serializers import CategorySerializer, QuestionSerializer, RespondantSerializer
+from . models import Category, Question, Respondant
 
 
 def hello(request):
@@ -12,7 +13,7 @@ def hello(request):
 
 
 class CategoryViewSet(ModelViewSet):
-    queryset = Category.objects.all()
+    queryset = Category.objects.annotate(question_counts=Count('questions'))
     serializer_class = CategorySerializer
 
     def destroy(self, request, *args, **kwargs):
@@ -23,5 +24,13 @@ class CategoryViewSet(ModelViewSet):
 
 
 class QuestionViewSet(ModelViewSet):
-    queryset = Question.published.prefetch_related('choices').all()
+    queryset = Question.published.prefetch_related('choices').order_by('-date_created')
     serializer_class = QuestionSerializer
+
+    def get_serializer_context(self):
+        return {'user_id': self.request.user.id}
+
+
+class RespondantViewSet(ModelViewSet):
+    queryset = Respondant.objects.select_related('address').all()
+    serializer_class = RespondantSerializer
