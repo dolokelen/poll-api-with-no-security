@@ -7,6 +7,8 @@ router = DefaultRouter()
 router.register('categories', views.CategoryViewSet, basename='category')
 router.register('questions', views.QuestionViewSet, basename='question')
 router.register('respondants', views.RespondantViewSet, basename='respondant')
+router.register('responses', views.PollResponseViewSet, basename='response')
+router.register('selectedchoices', views.SelectedChoiceViewSet, basename='selectedchoice')
 
 
 urlpatterns = [

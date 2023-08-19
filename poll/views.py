@@ -1,11 +1,12 @@
+from collections import Counter
 from django.shortcuts import render
 from django.db.models import Count
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from rest_framework.response import Response
 
-from .serializers import CategorySerializer, QuestionSerializer, RespondantSerializer
-from . models import Category, Question, Respondant
+from .serializers import CategorySerializer, QuestionSerializer, RespondantSerializer, ResponseSerializer, SelectionChoiceSerializer
+from . models import Category, Question, Respondant, Response as PollResponse, SelectedChoice
 
 
 def hello(request):
@@ -32,5 +33,15 @@ class QuestionViewSet(ModelViewSet):
 
 
 class RespondantViewSet(ModelViewSet):
-    queryset = Respondant.objects.select_related('address').all()
+    queryset = Respondant.objects.select_related('address', 'user').all()
     serializer_class = RespondantSerializer
+
+
+class PollResponseViewSet(ModelViewSet):
+    queryset = PollResponse.objects.prefetch_related('respondant', 'question').all()
+    serializer_class = ResponseSerializer
+
+
+class SelectedChoiceViewSet(ModelViewSet):
+    queryset = SelectedChoice.objects.all()
+    serializer_class = SelectionChoiceSerializer

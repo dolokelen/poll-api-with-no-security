@@ -43,3 +43,21 @@ class RespondantSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Respondant
         fields = ['user', 'gender', 'birth_date', 'occupation', 'address']
+
+
+class ResponseSerializer(serializers.ModelSerializer):
+    respondant_id = serializers.IntegerField()
+    question_id = serializers.IntegerField()
+
+    class Meta:
+        model = models.Response
+        fields = ['id', 'respondant_id', 'question_id']
+
+
+class SelectionChoiceSerializer(serializers.ModelSerializer):
+    choice = ChoiceSerializer()
+    class Meta:
+        model = models.SelectedChoice
+        fields = ['id', 'response', 'choice']
+
+    
